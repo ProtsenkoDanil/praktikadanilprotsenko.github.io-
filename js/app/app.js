@@ -6,7 +6,7 @@ import { msg } from './widgets/msg.js';
 import { toogle } from './widgets/toogle.js';
 import { img } from './widgets/img.js';
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const main = {
         data() {
             return {
@@ -19,79 +19,87 @@ document.addEventListener('DOMContentLoaded', function() {
             };
         },
         watch: {
-            $route: function() {
-                this.init();
-            }
+            $route: 'init'
         },
-        mounted: function() {
+        mounted() {
             this.init();
         },
         methods: {
             init() {
-                var self = this;
-                if (window.localStorage.getItem('user')) {
-                    self.user = JSON.parse(window.localStorage.getItem('user'));
+                const savedUser = localStorage.getItem('user');
+                if (savedUser) {
+                    try {
+                        this.user = JSON.parse(savedUser);
+                    } catch (e) {
+                        console.error('Ошибка парсинга пользователя из localStorage:', e);
+                        localStorage.removeItem('user');
+                    }
                 }
+
                 router.isReady().then(() => {
-                    if (window.localStorage.getItem('user')) {
-                        self.user = JSON.parse(window.localStorage.getItem('user'));
-                        if (self.$route['path'] == '/' && self.user.type == 'admin') {
-                            self.page('/campaigns');
-                        } else if (['/campaigns', '/users', '/user'].includes(self.$route['path']) && self.user.type != 'admin') {
-                            self.page('/statistics');
-                        } else if (['/statistics', '/payments', '/sites'].includes(self.$route['path']) && self.user.type == 'admin') {
-                            self.page('/campaigns');
-                        } else if (['/campaigns', '/users', '/user', '/statistics'].includes(self.$route['path'])) {
-                            self.page();
-                        } else if (!['/campaign', '/users', '/statistics', '/payments', '/sites'].includes(self.$route['path'])) {
-                            self.page();
-                        }
+                    const path = this.$route.path;
+                    const userType = this.user.type;
+
+                    const adminRoutes = ['/campaigns', '/statistics', '/payments', '/sites'];
+                    const userRoutes = ['/campaigns', '/users', '/user', '/statistics'];
+
+                    if (!this.user.auth) {
+                        this.navigateTo('/');
+                    } else if (path === '/' && userType === 'admin') {
+                        this.navigateTo('/campaigns');
+                    } else if (adminRoutes.includes(path) && userType !== 'admin') {
+                        this.navigateTo('/statistics');
+                    } else if (userRoutes.includes(path)) {
+                        this.navigateTo(path);
                     } else {
-                        self.page('/');
+                        this.navigateTo('/');
                     }
                 });
             },
             logout() {
                 this.user = { name: "", phone: "", email: "", date: "", auth: "" };
-                this.page('/');
-                window.localStorage.setItem('user', '');
+                this.navigateTo('/');
+                localStorage.removeItem('user');
             },
-            scrollTop() {
-                setTimeout(function() {
+            scrollToTop() {
+                setTimeout(() => {
                     window.scroll({
                         top: 0,
                         behavior: 'smooth'
                     });
                 }, 50);
             },
-            scrollBottom() {
-                setTimeout(function() {
+            scrollToBottom() {
+                setTimeout(() => {
                     window.scroll({
-                        top: 1000,
+                        top: document.body.scrollHeight,
                         behavior: 'smooth'
                     });
                 }, 50);
             },
-            page(path = "") {
+            navigateTo(path = "") {
                 this.$router.replace(path);
-                this.title = this.$route['name'];
-                document.title = this.$route['name'];
+                this.title = this.$route.name;
+                document.title = this.$route.name || "My Application";
             },
             toFormData(obj) {
-                var fd = new FormData();
-                for (var x in obj) {
-                    if (typeof obj[x] === 'object' && x != 'img' && x != 'copy') {
-                        for (var y in obj[x]) {
-                            if (typeof obj[x][y] === 'object') {
-                                for (var z in obj[x][y]) {
-                                    fd.append(x + '[' + y + '][' + z + ']', obj[x][y][z]);
+                const fd = new FormData();
+                for (const key in obj) {
+                    if (typeof obj[key] === 'object' && key !== 'img' && key !== 'copy') {
+                        for (const nestedKey in obj[key]) {
+                            if (typeof obj[key][nestedKey] === 'object') {
+                                for (const deepKey in obj[key][nestedKey]) {
+                                    fd.append(
+                                        `${key}[${nestedKey}][${deepKey}]`,
+                                        obj[key][nestedKey][deepKey]
+                                    );
                                 }
                             } else {
-                                fd.append(x + '[' + y + ']', obj[x][y]);
+                                fd.append(`${key}[${nestedKey}]`, obj[key][nestedKey]);
                             }
                         }
-                    } else if (x != 'copy') {
-                        fd.append(x, obj[x]);
+                    } else if (key !== 'copy') {
+                        fd.append(key, obj[key]);
                     }
                 }
                 return fd;
@@ -99,7 +107,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
-    var app = Vue.createApp(main)
+    Vue.createApp(main)
         .use(router)
         .mount('#content');
 });
