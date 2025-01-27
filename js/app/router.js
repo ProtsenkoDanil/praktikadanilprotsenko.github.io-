@@ -1,11 +1,9 @@
-import { createRouter, createWebHashHistory } from 'vue-router';
-import { login } from './pages/login.js';
-
-const routes = [
-    { path: '/', component: login, name: 'Login' },
-];
+import { createRouter, createWebHashHistory } from './libs/vue-router.global.js';
+import { login } from './widgets/login.js';
 
 export const router = createRouter({
     history: createWebHashHistory(),
-    routes
+    routes: [
+        { path: '/', name: 'Login', component: login },
+    ]
 });
