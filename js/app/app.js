@@ -1,18 +1,18 @@
-import { createApp } from 'vue';
-import { createRouter, createWebHistory } from 'vue-router';
+const { createApp } = Vue;
+const { createRouter, createWebHistory } = VueRouter;
 
-// Маршруты для роутера
+// Маршруты
 const routes = [
     {
         path: '/',
         component: {
-            template: '<h1>Главная страница</h1><p>Сайт работает через Vue Router!</p>',
+            template: '<h1>Главная страница</h1><p>Добро пожаловать на сайт!</p>',
         },
     },
     {
         path: '/about',
         component: {
-            template: '<h1>О проекте</h1><p>Это простая страница для теста.</p>',
+            template: '<h1>О проекте</h1><p>Этот сайт создан на Vue.</p>',
         },
     },
 ];
@@ -23,7 +23,7 @@ const router = createRouter({
     routes,
 });
 
-// Инициализация Vue-приложения
+// Создание Vue-приложения
 const app = createApp({});
 app.use(router);
 app.mount('#content');
