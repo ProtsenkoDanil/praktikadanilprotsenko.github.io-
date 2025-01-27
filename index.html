@@ -4,21 +4,19 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Test Vue App</title>
-    <!-- Подключение CSS -->
+    <title>My Vue Project</title>
     <link rel="stylesheet" href="./css/template.css">
+    <link rel="stylesheet" href="./css/font-awesome5.css">
 </head>
 <body>
-    <div id="app">
-        <!-- Здесь будет контент от Vue -->
+    <div id="content">
+        <router-view></router-view>
     </div>
 
-    <!-- Подключение библиотек -->
     <script src="./js/libs/vue.global.prod.js"></script>
     <script src="./js/libs/vue-router.global.js"></script>
-    <script>
-        console.log(Vue); // Должен вывести объект Vue в консоль
-    </script>
+    <script src="./js/libs/axios.min.js"></script>
+    <script src="./js/libs/chart.js"></script>
     <script src="./js/app/app.js" type="module"></script>
 </body>
 </html>
