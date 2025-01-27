@@ -3,11 +3,12 @@ export const login = {
         return {
             img: 1,
             hs: 0,
-            parent: ''
+            parent: '',
+            practiceText: 'ПРАКТИКА'
         };
     },
     mounted: function() {
-        console.log('ПРАКТИКА');
+        console.log(this.practiceText);
         this.img = this.randomIntFromInterval(1, 7);
         this.parent = this.$parent?.$parent || null;
     },
@@ -18,7 +19,7 @@ export const login = {
     },
     template: `
         <div class="flex">
-            <p>ПРАКТИКА</p>
+            <p>{{ practiceText }}</p> <!-- Отображаем текст "ПРАКТИКА" -->
         </div>
     `
 };
