@@ -1,8 +1,11 @@
+import { createRouter, createWebHashHistory } from 'vue-router';
 import { login } from './pages/login.js';
 
-export const router = VueRouter.createRouter({
-    history: VueRouter.createWebHashHistory(),
-    routes: [
-        { path: '/', name: 'Login', component: login }
-    ]
+const routes = [
+    { path: '/', component: login, name: 'Login' },
+];
+
+export const router = createRouter({
+    history: createWebHashHistory(),
+    routes
 });
