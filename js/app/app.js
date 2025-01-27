@@ -1,7 +1,6 @@
 const { createApp } = Vue;
 const { createRouter, createWebHistory } = VueRouter;
 
-// Настройка маршрутов
 const routes = [
     {
         path: '/',
@@ -17,7 +16,6 @@ const routes = [
     },
 ];
 
-// Настройка роутера с учётом базового пути
 const router = createRouter({
     history: createWebHistory('/praktikadanilprotsenko.github.io/-/'),
     routes: [
@@ -36,7 +34,6 @@ const router = createRouter({
     ],
 });
 
-// Создание Vue-приложения
 const app = createApp({});
 app.use(router);
 app.mount('#app');
