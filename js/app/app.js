@@ -1,39 +1,105 @@
-const { createApp } = Vue;
-const { createRouter, createWebHistory } = VueRouter;
+import { router } from './router.js';
+import { header } from './widgets/header.js';
+import { search } from './widgets/search.js';
+import { popup } from './widgets/popup.js';
+import { msg } from './widgets/msg.js';
+import { toogle } from './widgets/toogle.js';
+import { img } from './widgets/img.js';
 
-const routes = [
-    {
-        path: '/',
-        component: {
-            template: '<h1>Главная страница</h1><p>Добро пожаловать на сайт!</p>',
+document.addEventListener('DOMContentLoaded', function() {
+    const main = {
+        data() {
+            return {
+                url: "http://affiliate.yanbasok.com",
+                user: { name: "", phone: "", email: "", date: "", auth: "" },
+                formData: {},
+                title: "",
+                date: "",
+                time: ""
+            };
         },
-    },
-    {
-        path: '/about',
-        component: {
-            template: '<h1>О проекте</h1><p>Этот сайт использует Vue Router.</p>',
+        watch: {
+            $route: function() {
+                this.init();
+            }
         },
-    },
-];
+        mounted: function() {
+            this.init();
+        },
+        methods: {
+            init() {
+                var self = this;
+                if (window.localStorage.getItem('user')) {
+                    self.user = JSON.parse(window.localStorage.getItem('user'));
+                }
+                router.isReady().then(() => {
+                    if (window.localStorage.getItem('user')) {
+                        self.user = JSON.parse(window.localStorage.getItem('user'));
+                        if (self.$route['path'] == '/' && self.user.type == 'admin') {
+                            self.page('/campaigns');
+                        } else if (['/campaigns', '/users', '/user'].includes(self.$route['path']) && self.user.type != 'admin') {
+                            self.page('/statistics');
+                        } else if (['/statistics', '/payments', '/sites'].includes(self.$route['path']) && self.user.type == 'admin') {
+                            self.page('/campaigns');
+                        } else if (['/campaigns', '/users', '/user', '/statistics'].includes(self.$route['path'])) {
+                            self.page();
+                        } else if (!['/campaign', '/users', '/statistics', '/payments', '/sites'].includes(self.$route['path'])) {
+                            self.page();
+                        }
+                    } else {
+                        self.page('/');
+                    }
+                });
+            },
+            logout() {
+                this.user = { name: "", phone: "", email: "", date: "", auth: "" };
+                this.page('/');
+                window.localStorage.setItem('user', '');
+            },
+            scrollTop() {
+                setTimeout(function() {
+                    window.scroll({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                }, 50);
+            },
+            scrollBottom() {
+                setTimeout(function() {
+                    window.scroll({
+                        top: 1000,
+                        behavior: 'smooth'
+                    });
+                }, 50);
+            },
+            page(path = "") {
+                this.$router.replace(path);
+                this.title = this.$route['name'];
+                document.title = this.$route['name'];
+            },
+            toFormData(obj) {
+                var fd = new FormData();
+                for (var x in obj) {
+                    if (typeof obj[x] === 'object' && x != 'img' && x != 'copy') {
+                        for (var y in obj[x]) {
+                            if (typeof obj[x][y] === 'object') {
+                                for (var z in obj[x][y]) {
+                                    fd.append(x + '[' + y + '][' + z + ']', obj[x][y][z]);
+                                }
+                            } else {
+                                fd.append(x + '[' + y + ']', obj[x][y]);
+                            }
+                        }
+                    } else if (x != 'copy') {
+                        fd.append(x, obj[x]);
+                    }
+                }
+                return fd;
+            }
+        }
+    };
 
-const router = createRouter({
-    history: createWebHistory('/praktikadanilprotsenko.github.io/-/'),
-    routes: [
-        {
-            path: '/',
-            component: {
-                template: '<h1>Главная страница</h1><p>Добро пожаловать!</p>',
-            },
-        },
-        {
-            path: '/about',
-            component: {
-                template: '<h1>О проекте</h1><p>Этот сайт использует Vue Router.</p>',
-            },
-        },
-    ],
+    var app = Vue.createApp(main)
+        .use(router)
+        .mount('#content');
 });
-
-const app = createApp({});
-app.use(router);
-app.mount('#app');
