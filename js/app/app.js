@@ -19,8 +19,21 @@ const routes = [
 
 // Настройка роутера с учётом базового пути
 const router = createRouter({
-    history: createWebHistory('/praktikadanilprotsenko.github.io/'), // Задаём базовый путь
-    routes,
+    history: createWebHistory('/praktikadanilprotsenko.github.io/-/'),
+    routes: [
+        {
+            path: '/',
+            component: {
+                template: '<h1>Главная страница</h1><p>Добро пожаловать!</p>',
+            },
+        },
+        {
+            path: '/about',
+            component: {
+                template: '<h1>О проекте</h1><p>Этот сайт использует Vue Router.</p>',
+            },
+        },
+    ],
 });
 
 // Создание Vue-приложения
