@@ -6,7 +6,7 @@ import { msg } from './widgets/msg.js';
 import { toogle } from './widgets/toogle.js';
 import { img } from './widgets/img.js';
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function() {
     const main = {
         data() {
             return {
@@ -19,87 +19,79 @@ document.addEventListener('DOMContentLoaded', function () {
             };
         },
         watch: {
-            $route: 'init'
+            $route: function() {
+                this.init();
+            }
         },
-        mounted() {
+        mounted: function() {
             this.init();
         },
         methods: {
             init() {
-                const savedUser = localStorage.getItem('user');
-                if (savedUser) {
-                    try {
-                        this.user = JSON.parse(savedUser);
-                    } catch (e) {
-                        console.error('Ошибка парсинга пользователя из localStorage:', e);
-                        localStorage.removeItem('user');
-                    }
+                var self = this;
+                if (window.localStorage.getItem('user')) {
+                    self.user = JSON.parse(window.localStorage.getItem('user'));
                 }
-
                 router.isReady().then(() => {
-                    const path = this.$route.path;
-                    const userType = this.user.type;
-
-                    const adminRoutes = ['/campaigns', '/statistics', '/payments', '/sites'];
-                    const userRoutes = ['/campaigns', '/users', '/user', '/statistics'];
-
-                    if (!this.user.auth) {
-                        this.navigateTo('/');
-                    } else if (path === '/' && userType === 'admin') {
-                        this.navigateTo('/campaigns');
-                    } else if (adminRoutes.includes(path) && userType !== 'admin') {
-                        this.navigateTo('/statistics');
-                    } else if (userRoutes.includes(path)) {
-                        this.navigateTo(path);
+                    if (window.localStorage.getItem('user')) {
+                        self.user = JSON.parse(window.localStorage.getItem('user'));
+                        if (self.$route['path'] == '/' && self.user.type == 'admin') {
+                            self.page('/campaigns');
+                        } else if (['/campaigns', '/users', '/user'].includes(self.$route['path']) && self.user.type != 'admin') {
+                            self.page('/statistics');
+                        } else if (['/statistics', '/payments', '/sites'].includes(self.$route['path']) && self.user.type == 'admin') {
+                            self.page('/campaigns');
+                        } else if (['/campaigns', '/users', '/user', '/statistics'].includes(self.$route['path'])) {
+                            self.page();
+                        } else if (!['/campaign', '/users', '/statistics', '/payments', '/sites'].includes(self.$route['path'])) {
+                            self.page();
+                        }
                     } else {
-                        this.navigateTo('/');
+                        self.page('/');
                     }
                 });
             },
             logout() {
                 this.user = { name: "", phone: "", email: "", date: "", auth: "" };
-                this.navigateTo('/');
-                localStorage.removeItem('user');
+                this.page('/');
+                window.localStorage.setItem('user', '');
             },
-            scrollToTop() {
-                setTimeout(() => {
+            scrollTop() {
+                setTimeout(function() {
                     window.scroll({
                         top: 0,
                         behavior: 'smooth'
                     });
                 }, 50);
             },
-            scrollToBottom() {
-                setTimeout(() => {
+            scrollBottom() {
+                setTimeout(function() {
                     window.scroll({
-                        top: document.body.scrollHeight,
+                        top: 1000,
                         behavior: 'smooth'
                     });
                 }, 50);
             },
-            navigateTo(path = "") {
+            page(path = "") {
                 this.$router.replace(path);
-                this.title = this.$route.name;
-                document.title = this.$route.name || "My Application";
+                this.title = this.$route['name'];
+                document.title = this.$route['name'];
             },
             toFormData(obj) {
-                const fd = new FormData();
-                for (const key in obj) {
-                    if (typeof obj[key] === 'object' && key !== 'img' && key !== 'copy') {
-                        for (const nestedKey in obj[key]) {
-                            if (typeof obj[key][nestedKey] === 'object') {
-                                for (const deepKey in obj[key][nestedKey]) {
-                                    fd.append(
-                                        `${key}[${nestedKey}][${deepKey}]`,
-                                        obj[key][nestedKey][deepKey]
-                                    );
+                var fd = new FormData();
+                for (var x in obj) {
+                    if (typeof obj[x] === 'object' && x != 'img' && x != 'copy') {
+                        for (var y in obj[x]) {
+                            if (typeof obj[x][y] === 'object') {
+                                for (var z in obj[x][y]) {
+                                    fd.append(x + '[' + y + '][' + z + ']', obj[x][y][z]);
                                 }
                             } else {
-                                fd.append(`${key}[${nestedKey}]`, obj[key][nestedKey]);
+                                fd.append(x + '[' + y + ']', obj[x][y]);
                             }
                         }
-                    } else if (key !== 'copy') {
-                        fd.append(key, obj[key]);
+                    } else if (x != 'copy') {
+                        fd.append(x, obj[x]);
                     }
                 }
                 return fd;
@@ -107,7 +99,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     };
 
-    Vue.createApp(main)
+    var app = Vue.createApp(main)
         .use(router)
         .mount('#content');
 });
