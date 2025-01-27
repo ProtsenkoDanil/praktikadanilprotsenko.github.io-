@@ -7,9 +7,8 @@ export const login = {
         };
     },
     mounted: function() {
-        console.log('ПРАКТИКА');
         this.img = this.randomIntFromInterval(1, 7);
-        this.parent = this.$parent?.$parent;
+        this.parent = this.$parent.$parent;
     },
     methods: {
         randomIntFromInterval(min, max) {
@@ -18,7 +17,7 @@ export const login = {
     },
     template: `
         <div class="flex">
-            gdfgdfgdfgdf
+            <p>gdfgdfgdfgdf</p>
         </div>
     `
 };
