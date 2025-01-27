@@ -1,29 +1,25 @@
+// Используем глобальные объекты Vue и VueRouter
 const { createApp } = Vue;
-const { createRouter, createWebHistory } = VueRouter;
 
-// Маршруты
-const routes = [
-    {
-        path: '/',
-        component: {
-            template: '<h1>Главная страница</h1><p>Добро пожаловать на сайт!</p>',
-        },
-    },
-    {
-        path: '/about',
-        component: {
-            template: '<h1>О проекте</h1><p>Этот сайт создан на Vue.</p>',
-        },
-    },
-];
+// Компонент для главной страницы
+const Home = {
+    template: `<h1>Добро пожаловать!</h1><p>Это главная страница Vue-приложения.</p>`,
+};
 
-// Создание роутера
-const router = createRouter({
-    history: createWebHistory(),
-    routes,
+// Создаём Vue-приложение
+const app = createApp({
+    data() {
+        return {
+            message: "Привет, Vue работает!",
+        };
+    },
+    template: `
+        <div>
+            <h1>{{ message }}</h1>
+            <p>Теперь Vue успешно инициализирован.</p>
+        </div>
+    `,
 });
 
-// Создание Vue-приложения
-const app = createApp({});
-app.use(router);
-app.mount('#content');
+// Монтируем приложение в #app
+app.mount('#app');
