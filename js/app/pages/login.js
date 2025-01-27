@@ -18,7 +18,7 @@ export const login = {
     },
     template: `
         <div class="flex">
-            <p>gdfgdfgdfgdf</p>
+            <p>ПРАКТИКА</p>
         </div>
     `
 };
