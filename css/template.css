@@ -16,7 +16,7 @@ body {
 
 .image-section {
     width: 60%;
-    background: url('https://img.freepik.com/free-photo/beautiful-natural-girl-with-ginger-curly-laughing-sincere-smiling-white-teeth-covering-half-face-standing-red-t-shirt-against-white-background_176420-45382.jpg') no-repeat center center;
+    background: url('../images/background.jpg') no-repeat center center;
     background-size: cover;
 }
 
