@@ -2,11 +2,7 @@ export const login = {
     data() {
         return {
             img: 1,
-            parent: null,
-            formData: {
-                email: "",
-                password: ""
-            }
+            parent: null
         };
     },
     mounted() {
@@ -19,13 +15,12 @@ export const login = {
         },
         login() {
             let self = this;
-            let data = self.parent.toFormData(self.formData);
+            let data = self.parent.toFormData(self.parent.formData);
 
-            axios.post(self.parent.url + "/site/login", data)
+            axios.post(this.parent.url + "/site/login", data)
                 .then(response => {
                     if (response.data.error) {
                         self.$refs.msg.alertFun(response.data.error);
-                        return;
                     }
                     if (response.data.user) {
                         self.parent.user = response.data.user;
@@ -34,27 +29,44 @@ export const login = {
                     }
                 })
                 .catch(error => {
-                    console.log('Login error:', error);
-                    self.$refs.msg.alertFun("Login failed. Please try again.");
+                    console.log('errors:', error);
                 });
         }
     },
     template: `
-        <div class="login-container">
+        <div class="flex">
             <msg ref="msg"/>
-            <div class="login-box">
-                <h1>Affiliate Sign in</h1>
-                <form @submit.prevent="login">
-                    <label>Email</label>
-                    <input type="email" v-model="formData.email" required>
+            <div id="left-area" class="w40">
+                <div class="header">
+                    <div class="wrapper flex">
+                        <div class="w40 logo">
+                            <img :src="parent.url+'/app/views/images/logo.svg'" />
+                        </div>
+                        <div class="w60 al">
+                            <h1>Affiliate Sign in</h1>
+                        </div>
+                    </div>
+                </div>
 
-                    <label>Password</label>
-                    <input type="password" v-model="formData.password" required autocomplete="on">
+                <div class="form inner-form p20">
+                    <form @submit.prevent="login()" v-if="parent.formData">
+                        <div class="row">
+                            <label>Email</label>
+                            <input type="email" v-model="parent.formData.email" required>
+                        </div>
 
-                    <button class="btn">SIGN IN</button>
-                </form>
+                        <div class="row">
+                            <label>Password</label>
+                            <input type="password" v-model="parent.formData.password" required autocomplete="on">
+                        </div>
+
+                        <div class="row">
+                            <button class="btn">Sign in</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="login-image">
+            <div id="right-area" class="w60">
                 <img :src="parent.url+'/app/views/images/Cover_'+img+'.jpg'" />
             </div>
         </div>
