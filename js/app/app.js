@@ -100,6 +100,6 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     var app = Vue.createApp(main)
-        .use(router)
-        .mount('#content');
+app.use(router);
+app.mount("#app");
 });
