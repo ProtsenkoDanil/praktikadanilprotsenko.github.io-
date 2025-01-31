@@ -8,7 +8,7 @@ export const login = {
     },
     methods: {
         getBackgroundImageUrl() {
-            return `/images/Cover 6.jpg`;
+            return "https://scontent-waw2-1.cdninstagram.com/v/t51.29350-15/168879530_747589779451604_3821274295724786984_n.jpg?stp=dst-jpg_e35_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6ImltYWdlX3VybGdlbi4xMDgweDEwODAuc2RyLmYyOTM1MC5kZWZhdWx0X2ltYWdlIn0&_nc_ht=scontent-waw2-1.cdninstagram.com&_nc_cat=108&_nc_ohc=GoEwP6UUVOgQ7kNvgF0fEZk&_nc_gid=d6aece6cadf842229f778c59f73cd0fb&edm=AP4sbd4BAAAA&ccb=7-5&ig_cache_key=MjU0NTkxNjYyODI0MjQ0OTI0MA%3D%3D.3-ccb7-5&oh=00_AYD_FMSPoSBP0f4iIjIpO1W-gY6Q08cfil51d_7G67vmxw&oe=67A2962E&_nc_sid=7a9f4b";
         },
     },
 
