@@ -1,80 +1,78 @@
 export const msg = {
-    data() {
+    data: function () {
         return {
             alert: "",
             success: "",
-            t1: null,
-            t2: null,
+            t1: "",
+            t2: "",
             confirmTitle: "Please confirm next action",
             confirm: "",
             code: 0,
-            interval: null
-        };
+            interval: ""
+        }
+    },
+    watch: {
     },
     mounted() {
-        this.parent = this.$parent?.$parent?.$parent;
+        this.parent = this.$parent.$parent.$parent;
     },
-    methods: {
+    methods:{
         fadeIn(el, timeout, display) {
             el.style.opacity = 0;
-            el.style.display = display || "block";
+            el.style.display = display || 'block';
             el.style.transition = `opacity ${timeout}ms`;
             setTimeout(() => {
-                el.style.opacity = 1;
+              el.style.opacity = 1;
             }, 10);
         },
         fadeOut(el, timeout) {
             el.style.opacity = 1;
             el.style.transition = `opacity ${timeout}ms`;
+            el.style.opacity = 0;
             setTimeout(() => {
-                el.style.opacity = 0;
-                setTimeout(() => el.style.display = "none", timeout);
+              el.style.display = 'none';
             }, timeout);
         },
         successFun(msg) {
             this.success = msg;
-            if (document.querySelector(".successMsg"))
-                document.querySelector(".successMsg").style = "";
-            
-            clearTimeout(this.t1);
-            clearTimeout(this.t2);
-
-            this.t1 = setTimeout(() => {
-                const block = document.querySelector(".successMsg");
-                this.fadeIn(block, 1000, "flex");
-
-                this.t2 = setTimeout(() => {
-                    this.fadeOut(block, 1000);
-                }, 3000);
+          
+            var self = this;
+            if (document.querySelector('.successMsg')) document.querySelector('.successMsg').style = "";
+            clearTimeout(self.t1);
+            clearTimeout(self.t2);
+            self.t1 = setTimeout(function() {
+              const block = document.querySelector('.successMsg');
+              self.fadeIn(block, 1000, 'flex');
+              self.t2 = setTimeout(function() {
+                self.fadeOut(block, 1000);
+              }, 3000);
             }, 100);
         },
         alertFun(msg) {
             this.alert = msg;
-            if (document.querySelector(".alertMsg"))
-                document.querySelector(".alertMsg").style = "";
-
-            clearTimeout(this.t1);
-            clearTimeout(this.t2);
-
-            this.t1 = setTimeout(() => {
-                const block = document.querySelector(".alertMsg");
-                this.fadeIn(block, 1000, "flex");
-
-                this.t2 = setTimeout(() => {
-                    this.fadeOut(block, 1000);
-                }, 3000);
+          
+            var self = this;
+            if (document.querySelector('.alertMsg')) document.querySelector('.alertMsg').style = "";
+            clearTimeout(self.t1);
+            clearTimeout(self.t2);
+            self.t1 = setTimeout(function() {
+              const block = document.querySelector('.alertMsg');
+              self.fadeIn(block, 1000, 'flex');
+              self.t2 = setTimeout(function() {
+                self.fadeOut(block, 1000);
+              }, 3000);
             }, 100);
         }
     },
-    template: `
+    template:`
         <div class="alertMsg" v-if="alert">
             <div class="wrapper al">
-                <i class="fas fa-times-circle"></i> {{ alert }}
+                <i class="fas fa-times-circle"></i> {{alert}}
             </div>
         </div>
         <div class="successMsg" v-if="success">
             <div class="wrapper al">
-                <i class="fas fa-check-circle"></i> {{ success }}
+                <i class="fas fa-check-circle"></i> {{success}}
             </div>
         </div>
     `
