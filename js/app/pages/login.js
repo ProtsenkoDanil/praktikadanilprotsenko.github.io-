@@ -8,7 +8,7 @@ export const login = {
     },
     methods: {
         getBackgroundImageUrl() {
-            return `/images/Cover 6.jpg`; // Исправленный путь
+            return `/images/Cover 6.jpg`;
         },
     },
 
