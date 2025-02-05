@@ -1,37 +1,23 @@
 export const login = {
-    computed: {
-        backgroundImageStyle() {
-            return {
-                backgroundImage: `url(${this.getBackgroundImageUrl()})`
-            };
-        }
-    },
-    methods: {
-        getBackgroundImageUrl() {
-            return `/images/Cover 6.jpg`;
-        },
-    },
-
-
-    data: function () {
+    data:function() {
         return {
-            img: 1,
-            parent: ''
+            img:1,
+            parent:''
         }
     },
-    mounted: function () {
-        this.img = this.randomIntFromInterval(1, 7);
+    mounted:function() {
+        this.img = this.randomIntFromInterval(1,7);
         this.parent = this.$parent.$parent;
     },
-    methods: {
-        randomIntFromInterval: function (min, max) {
+    methods:{
+        randomIntFromInterval:function (min, max) {
             return Math.floor(Math.random() * (max - min + 1) + min);
         },
-        login: function () {
+        login:function(){
             var self = this;
             var data = self.parent.toFormData(self.parent.formData);
 
-            axios.post(this.parent.url + "/site/login", data).then(function (response) {
+            axios.post(this.parent.url + "/site/login", data).then(function(response) {
                 if (response.data.error) {
                     self.$refs.msg.alertFun(response.data.error);
                 }
@@ -40,7 +26,7 @@ export const login = {
                     self.parent.page('/campaigns');
                     window.localStorage.setItem('user', JSON.stringify(self.parent.user));
                 }
-            }).catch(function (error) {
+            }).catch(function(error) {
                 console.log('errors: ', error);
             });
         },
