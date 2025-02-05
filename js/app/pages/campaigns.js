@@ -18,6 +18,8 @@ export const campaigns = {
       if (!this.parent.user) {
         this.parent.logout();
       }
+      //this.$refs.msg.successFun ("Successfully updated campaign!");
+      // console.log(this.parent.formData.all);
       this.get();
       this.GetFirstAndLastDate();
     },
