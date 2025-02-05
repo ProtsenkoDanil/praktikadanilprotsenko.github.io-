@@ -4,7 +4,6 @@ body{
     margin: 0;
     padding: 0;
     height: 100%;
-    /* direction: rtl; */
 }
 .alertMsg {
     font-size: inherit;
@@ -107,9 +106,7 @@ a{
     padding: 5px 0px;
     object-fit: cover;
 }
-/* .al{
-    text-align: left;
-} */
+
 .wrapper .al{
     order: -1;
     display: flex;
@@ -240,12 +237,7 @@ input[type="text"]:focus {
 .fas:hover{
     color: #00c276; 
 }
-/* .fa-window-close{
-    transition: color 0.3s ease;
-}
-.fa-window-close:hover{
-    color: #00c276; 
-} */
+
 #spinner{
     background: #919fa640 url(../images/loader.gif) no-repeat;
     background-position: center;
@@ -330,12 +322,7 @@ input[type="date"]::-webkit-fa-calendar {
     color: #00c276;
     text-decoration: none;
 }
-/* .fa-trash-alt{
-    transition: color 0.3s ease;
-}
-.fa-trash-alt:hover{
-    color: #00c276;
-} */
+
 .switch{
     position: relative;
     display: inline-block;
@@ -393,21 +380,11 @@ input:checked + .slider:before{
     display: flex;
     justify-content: end;
 }
-/* .row::after{
-    clear:both;
-    content:"";
-    display:block;
-}
-.row{
-    display: flex;
-    justify-content: center;
-    align-items: baseline;
-} */
+
 
 ul {
     display: flex;
     align-items: center;
-    /* text-align: right; */
     height: 100%;
     list-style: none;
     padding: 0;
