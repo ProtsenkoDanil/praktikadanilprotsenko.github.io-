@@ -148,7 +148,7 @@ export const campaign = {
                   // }
                 }
               }
-              // document.getElementById('chartOuter').innerHTML = '<div id="chartHints"><div class="chartHintsViews">Views</div><div class="chartHintsClicks">Clicks</div></div>'
+              document.getElementById('chartOuter').innerHTML = '<div id="chartHints"><div class="chartHintsViews">Views</div><div class="chartHintsClicks">Clicks</div><canvas id="myChart"></canvas></div>'
               const ctx = document.getElementById('myChart');
               const xScaleImage = {
                 id:"xScaleImage",
@@ -301,17 +301,17 @@ export const campaign = {
 
             <popup ref="new" :title="(parent.formData && parent.formData.id) ? 'Edit campaign' : 'New campaign'">
                 <div class="form inner-form">
-                <form @submit.prevent="action()" v-if="parent.formData">
-                    <div class="row">
-                    <label>Name</label>
-                    <input type="text" v-model="parent.formData.title" required>
-                    </div>
-                    
-                    <div class="row">
-                    <button class="btn" v-if="parent.formData && parent.formData.id">Edit</button>
-                    <button class="btn" v-if="parent.formData && !parent.formData.id">Add</button>
-                    </div>
-                </form>
+                  <form @submit.prevent="action()" v-if="parent.formData">
+                      <div class="row">
+                      <label>Name</label>
+                      <input type="text" v-model="parent.formData.title" required>
+                      </div>
+                      
+                      <div class="row">
+                        <button class="btn" v-if="parent.formData && parent.formData.id">Edit</button>
+                        <button class="btn" v-if="parent.formData && !parent.formData.id">Add</button>
+                      </div>
+                  </form>
                 </div>
             </popup>
       </div>
@@ -452,19 +452,19 @@ export const campaign = {
                               </a>
                           </td>
                           <td class="id">
-                              <a href="#" click.prevent="$refs.details.active=1;getDetails(item.id,2)">
+                              <a href="#" @click.prevent="$refs.details.active=1;getDetails(item.id,2)">
                                   <template v-if="item.clicks">{{item.clicks}}</template>
                                   <template v-if="!item.clicks">0</template>
                               </a>
                           </td>
                           <td class="id">
-                              <a href="#" click.prevent="$refs.details.active=1;getDetails(item.id,3)">
+                              <a href="#" @click.prevent="$refs.details.active=1;getDetails(item.id,3)">
                                   <template v-if="item.leads">{{item.leads}}</template>
                                   <template v-if="!item.leads">0</template>
                               </a>
                           </td>
                           <td class="id">
-                              <a href="#" click.prevent="$refs.details.active=1;getDetails(item.id,4)">
+                              <a href="#" @click.prevent="$refs.details.active=1;getDetails(item.id,4)">
                                   <template v-if="item.fclicks">{{item.fclicks}}</template>
                                   <template v-if="!item.fclicks">0</template>
                               </a>
