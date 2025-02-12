@@ -55,7 +55,6 @@ export const statistics = {
                     self.$refs.header.$refs.msg.alertFun(response.data.error);
                     return false;
                 }else{
-                    // self.$refs.new.active=0;
                 }
                 
                 if (self.parent.formData.id) {
