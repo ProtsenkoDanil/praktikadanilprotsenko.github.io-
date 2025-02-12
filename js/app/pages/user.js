@@ -102,7 +102,6 @@ export const user = {
                 self.$refs.header.$refs.msg.alertFun(response.data.error);
                 return false;
             }else{
-                // self.$refs.ad.active = 0;
             }
             
             if(self.parent.formData.id) {
@@ -162,12 +161,6 @@ export const user = {
         var data = self.parent.toFormData(self.parent.formData);
 
         axios.post(this.parent.url+"/site/actionSite?auth=" + this.parent.user.auth, data).then(function(response) {
-            // if(response.data.error){
-            //     self.$refs.header.$refs.msg.alertFun(response.data.error);
-            //     return false;
-            // }else{
-            //     self.$refs.ad.active = 0;
-            // }
             
             if(self.parent.formData.id) {
               self.$refs.header.$refs.msg.successFun("Successfully updated site!");
@@ -214,11 +207,9 @@ export const user = {
           }
           new Chart(ctx, {
             type:'line',
-            // plugins:[xScaleImage],
 
             data: {
               labels: dates,
-              // images: images,
               datasets: [
                 {
                   label: "Clicks",
@@ -253,7 +244,6 @@ export const user = {
               },
               categoryPercentage: 0.2,
               barPercentage: 0.8,
-              // barThickness: 30,
               scales:{
                 y:{
                   id: 'y2',
