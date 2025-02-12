@@ -116,9 +116,7 @@ a{
     padding: 5px 0px;
     object-fit: cover;
 }
-/* .al{
-    text-align: left;
-} */
+
 .wrapper .al{
     order: -1;
     display: flex;
